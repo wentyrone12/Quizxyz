@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Study - CEO Wendell</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <button onclick="goBack()">⬅ Back</button>
+
+  <div class="card" id="card" onclick="flipCard()">
+    <div class="inner">
+      <div class="front" id="question">Loading...</div>
+      <div class="back" id="answer">Answer</div>
+    </div>
+  </div>
+
+  <br>
+
+  <button onclick="prevCard()">⬅ Prev</button>
+  <button onclick="flipCard()">Flip</button>
+  <button onclick="nextCard()">Next ➡</button>
+
+  <br><br>
+
+  <input id="qInput" placeholder="Question">
+  <input id="aInput" placeholder="Answer">
+
+  <br>
+
+  <button onclick="addCard()">Add</button>
+  <button onclick="deleteCard()">Delete</button>
+
+  <br><br>
+</div>
+
+<div class="nametag">Made by Developer Wenxyz</div>
+
+
+
+<script type="module" src="script.js"></script>
+</body>
+</html>

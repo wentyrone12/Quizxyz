@@ -1,0 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: black;
+  color: cyan;
+  font-family: Arial, sans-serif;
+}
+
+h1{
+    text-align: center;
+    margin: 50px auto;
+}
+h3{
+    color: rgb(181, 17, 157);
+    margin-top: 20px;
+}
+
+.container {
+  backdrop-filter: blur(3px);
+  border: 1px solid white ;
+  border-radius: 30px;
+  max-width: 400px;
+  margin: 50% auto;
+  padding: 40px;
+  text-align: center;
+  justify-self: center;
+}
+
+/* CARD */
+.card {
+  width: 100%;
+  height: 220px;
+  perspective: 1000px;
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+.inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card.flipped .inner {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  font-size: 18px;
+  backface-visibility: hidden;
+  background: #020617;
+  border: 2px solid #22c55e;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+/* BUTTONS */
+button {
+  padding: 8px 12px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: gold;
+  color: black;
+  transition: 0.2s;
+}
+.nametag{
+    color: gray;
+    font-size: 12px;
+    justify-content: center;
+    justify-self: center;
+    position: relative;
+    top: -100px;
+}
+button:hover {
+    background-color: greenyellow;
+  transform: scale(1.05);
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* FORM */
+ input {
+    background-color: rgb(25, 23, 23);
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 8px;
+  border: 1px solid white;
+}
+input:focus{
+    background-color: white;
+    color: gold;
+}
+
+#deckList{
+    background-color: white;
+    color: black;
+}
