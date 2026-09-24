@@ -1,47 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Study - CEO Wendell</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d16">
+  <title>Quizxyz | Flashcard Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-<div class="container">
-
-  <button onclick="goBack()">⬅ Back</button>
-
-  <div class="card" id="card" onclick="flipCard()">
-    <div class="inner">
-      <div class="front" id="question">Loading...</div>
-      <div class="back" id="answer">Answer</div>
+<body class="study-page">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">W</span><span>Quiz<span
+          class="brand-accent">xyz</span></span></a>
+    <button class="back-link" type="button" onclick="goBack()">← <span>All decks</span></button>
+  </header>
+  <main class="study-wrap">
+    <div class="study-heading"><span class="eyebrow">FOCUS MODE</span>
+      <h1>Review & remember<span class="accent-text">.</span></h1>
+      <p>Think of your answer, then flip the card to check yourself.</p>
     </div>
-  </div>
-
-  <br>
-
-  <button onclick="prevCard()">⬅ Prev</button>
-  <button onclick="flipCard()">Flip</button>
-  <button onclick="nextCard()">Next ➡</button>
-
-  <br><br>
-
-  <input id="qInput" placeholder="Question">
-  <input id="aInput" placeholder="Answer">
-
-  <br>
-
-  <button onclick="addCard()">Add</button>
-  <button onclick="deleteCard()">Delete</button>
-
-  <br><br>
-</div>
-
-<div class="nametag">Made by Developer Wenxyz</div>
-
-
-
-<script type="module" src="script.js"></script>
+    <section class="study-card-shell">
+      <div class="card-topline"><span class="card-label"><span class="online-dot"></span> FLASHCARD</span><span
+          class="flip-hint">Tap card to flip</span></div>
+      <div class="card" id="card" onclick="flipCard()" role="button" tabindex="0"
+        aria-label="Flashcard. Tap or press Enter to flip.">
+        <div class="inner">
+          <div class="front"><span class="face-label">QUESTION</span>
+            <div class="card-face-content" id="question">Loading...</div><span class="face-footer">Think it through
+              <span>✦</span></span>
+          </div>
+          <div class="back"><span class="face-label">ANSWER</span>
+            <div class="card-face-content" id="answer">Answer</div><span class="face-footer">Nice work reviewing
+              <span>✓</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="card-navigation"><button class="nav-card-btn" type="button" onclick="prevCard()"
+          aria-label="Previous card">←</button><button class="btn btn-secondary flip-btn" type="button"
+          onclick="flipCard()">↻ <span>Flip card</span></button><button class="nav-card-btn" type="button"
+          onclick="nextCard()" aria-label="Next card">→</button></div>
+    </section>
+    <section class="editor-panel">
+      <div class="editor-heading">
+        <div><span class="eyebrow">BUILD YOUR SET</span>
+          <h2>Add a flashcard</h2>
+          <p>Write one clear prompt and its answer.</p>
+        </div>
+        <div class="editor-badge">＋ NEW CARD</div>
+      </div>
+      <div class="editor-fields">
+        <div class="field"><label for="qInput">Question</label><textarea id="qInput" placeholder="Type your question..."
+            rows="3" style="resize: none;"></textarea></div>
+        <div class="field"><label for="aInput">Answer</label><textarea id="aInput" placeholder="Type the answer..."
+            rows="3" style="resize: none;"></textarea></div>
+      </div>
+      <div class="editor-actions"><button class="btn btn-primary" type="button" onclick="addCard()">Add to deck
+          <span>↗</span></button><button class="btn btn-danger" type="button" onclick="deleteCard()">Delete current
+          card</button></div>
+    </section>
+  </main>
+  <footer class="footer"><span>Made with focus by <strong>Wenxyz</strong></span><span>Keep showing up. Your future self
+      will thank you.</span></footer>
+  <script type="module" src="script.js"></script>
+  <script>
+    document.addEventListener("keydown", function (e) {
+      const tag = (e.target.tagName || "").toLowerCase();
+      if (tag === "textarea" || tag === "input") return;
+      if (e.key === "ArrowRight") nextCard();
+      if (e.key === "ArrowLeft") prevCard();
+      if (e.key === "Enter" && e.target.id === "card") flipCard();
+    });
+  </script>
 </body>
+
 </html>

@@ -1,33 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Decks - CEO Wendell</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d16">
+  <title>Quizxyz | Study Decks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style1.css">
 </head>
-<body>
 
-<h1>📚 it's Quizxyz</h1>
+<body class="decks-page">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">W</span><span>Quiz<span
+          class="brand-accent">xyz</span></span></a>
+    <div class="topbar-note"><span class="online-dot"></span> Your personal study space</div>
+  </header>
+  <main class="home-wrap">
+    <section class="welcome">
+      <div class="welcome-copy">
+        <span class="eyebrow">LEARN AT YOUR OWN PACE</span>
+        <h1>To change your life, you must first to <br><span class="accent-text">Change your day.</span></h1>
+        <div class="welcome-pills"><span>✦ Simple flashcards</span><span>↻ Review anytime</span><span>⌂ Saved in this
+            browser</span></div>
+      </div>
+      <div class="welcome-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+        <div class="book-stack">
+          <div class="book book-back"></div>
+          <div class="book book-mid"></div>
+          <div class="book book-front"><span>Q</span><small>STUDY<br>SMART</small></div>
+          <div class="sparkle sparkle-one">✦</div>
+          <div class="sparkle sparkle-two">✧</div>
+        </div>
+      </div>
+    </section>
 
-
-<div class="container">
-  <input type="text" id="deckName" placeholder="Enter name project">
-  <button onclick="createDeck()">Create Project</button>
-
-  <h3>Select Project</h3>
-  <select id="deckList"></select>
-
-  <br><br>
-
-  <button onclick="goToDeck()">Open Project</button>
-  <button onclick="deleteDeck()">Delete Project</button>
-
-</div>
-
-
-<div class="nametag">Made by Developer Wenxyz</div>
-
-<script type="module" src="script1.js"></script>
+    <section class="workspace">
+      <div class="section-title">
+        <div><span class="eyebrow">YOUR LIBRARY</span>
+          <h2>Study decks</h2>
+        </div><span class="library-label">LOCAL COLLECTION</span>
+      </div>
+      <div class="deck-layout">
+        <article class="panel create-panel">
+          <div class="panel-icon">＋</div>
+          <h3>Create a new deck</h3>
+          <p>Give your study set a name that’s easy to recognize.</p>
+          <label for="deckName">Deck name</label>
+          <input type="text" id="deckName" placeholder="e.g. Networking Fundamentals" maxlength="60" autocomplete="off">
+          <button class="btn btn-primary full-btn" type="button" onclick="createDeck()">Create deck
+            <span>↗</span></button>
+          <div class="hint">You can add and remove cards after opening a deck.</div>
+        </article>
+        <article class="panel library-panel">
+          <div class="library-head">
+            <div>
+              <h3>Saved decks</h3>
+              <p>Choose a deck to continue studying.</p>
+            </div><span class="book-icon">▤</span>
+          </div>
+          <label for="deckList">Select a study deck</label>
+          <select id="deckList" aria-label="Select a study deck"></select>
+          <div class="deck-actions"><button class="btn btn-primary" type="button" onclick="goToDeck()">Open deck
+              <span>→</span></button><button class="btn btn-quiet" type="button" onclick="deleteDeck()">Delete</button>
+          </div>
+          <div class="library-foot"><span class="online-dot"></span> Decks are stored in this browser’s local storage.
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><span>Made by <strong>Wenxyz</strong></span><span>Quizxyz · Study smarter, one card
+      at a time</span></footer>
+  <script type="module" src="script1.js"></script>
 </body>
+
 </html>

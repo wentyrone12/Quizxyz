@@ -1,121 +1,863 @@
+/* Quizxyz refreshed interface — responsive dark study theme */
+:root {
+    color-scheme: dark;
+    --bg: #0b0d16;
+    --panel: rgba(20, 23, 38, .88);
+    --panel2: #15192a;
+    --text: #f4f5fb;
+    --muted: #9ba2b8;
+    --line: rgba(220, 225, 255, .12);
+    --accent: #a78bfa;
+    --accent2: #6ee7d8;
+    --danger: #ff7188;
+    --shadow: 0 22px 70px rgba(0, 0, 0, .35)
+}
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+}
+
+html {
+    min-width: 320px
 }
 
 body {
-  background: black;
-  color: cyan;
-  font-family: Arial, sans-serif;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "DM Sans", Arial, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden
 }
 
-h1{
+button,
+input,
+textarea,
+select {
+    font: inherit
+}
+
+button {
+    cursor: pointer
+}
+
+.ambient {
+    position: fixed;
+    z-index: -1;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: .14;
+    pointer-events: none
+}
+
+.ambient-a {
+    left: -190px;
+    top: 10%;
+    background: #17ce1a
+}
+
+.ambient-b {
+    right: -190px;
+    bottom: 4%;
+    background: #17ce1a;
+}
+
+.topbar {
+    width: min(1080px, calc(100% - 48px));
+    height: 72px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line)
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    text-decoration: none;
+    font: 700 19px "Space Grotesk", sans-serif;
+    letter-spacing: -.5px
+}
+
+.brand-mark {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #17ce1a, #d5f505);
+    color: #111323;
+    font-size: 16px
+}
+
+.brand-accent {
+    color: greenyellow;
+}
+
+.topbar-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600
+}
+
+.online-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #17ce1a;
+    box-shadow: 0 0 10px rgba(110, 231, 183, .65)
+}
+
+.home-wrap,
+.study-wrap {
+    width: min(960px, calc(100% - 48px));
+    margin: 0 auto;
+    flex: 1
+}
+
+.home-wrap {
+    padding: 56px 0 75px
+}
+
+.welcome {
+    min-height: 270px;
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    align-items: center;
+    gap: 25px;
+    padding: 35px 42px;
+    background: linear-gradient(115deg, rgba(31, 27, 54, .95), rgba(17, 29, 43, .9));
+    border: 1px solid rgba(167, 139, 250, .2);
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden
+}
+
+.eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.8px;
+    font-weight: 800;
+    color: var(--accent)
+}
+
+.welcome h1 {
+    font: 700 clamp(34px, 5vw, 54px)/1.08 "Space Grotesk", sans-serif;
+    letter-spacing: -1.8px;
+    margin: 13px 0
+}
+
+.accent-text {
+    color: var(--accent2)
+}
+
+.welcome-copy>p {
+    max-width: 470px;
+    color: #b8bfd0;
+    font-size: 13px
+}
+
+.welcome-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 22px
+}
+
+.welcome-pills span {
+    font-size: 9px;
+    color: #d7d9e6;
+    padding: 6px 9px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 99px;
+    background: rgba(255, 255, 255, .04)
+}
+
+.welcome-art {
+    height: 210px;
+    display: grid;
+    place-items: center;
+    position: relative
+}
+
+.art-orbit {
+    position: absolute;
+    border: 1px solid rgba(6, 255, 89, 0.392);
+    border-radius: 50%;
+    transform: rotate(-28deg)
+}
+
+.orbit-one {
+    width: 250px;
+    height: 125px
+}
+
+.orbit-two {
+    width: 180px;
+    height: 210px;
+    transform: rotate(35deg);
+    border-color: rgba(110, 231, 216, .2)
+}
+
+.book-stack {
+    width: 128px;
+    height: 142px;
+    position: relative;
+    transform: rotate(-9deg)
+}
+
+.book {
+    position: absolute;
+    width: 94px;
+    height: 122px;
+    border-radius: 8px 13px 13px 8px;
+    box-shadow: 0 13px 30px rgba(0, 0, 0, .3)
+}
+
+.book-back {
+    background: #53438e;
+    left: 22px;
+    top: 0;
+    transform: rotate(16deg)
+}
+
+.book-mid {
+    background: #2d8d89;
+    left: 10px;
+    top: 7px;
+    transform: rotate(7deg)
+}
+
+.book-front {
+    left: 0;
+    top: 13px;
+    background: linear-gradient(145deg, #b5a0ff, #8271d6);
+    border: 1px solid rgba(255, 255, 255, .3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #211b3a
+}
+
+.book-front span {
+    font: 700 39px "Space Grotesk", sans-serif
+}
+
+.book-front small {
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 2px;
     text-align: center;
-    margin: 50px auto;
+    line-height: 1.4
 }
-h3{
-    color: rgb(181, 17, 157);
+
+.sparkle {
+    position: absolute;
+    color: #17ce1a;
+    font-size: 25px
+}
+
+.sparkle-one {
+    right: -23px;
+    top: 0
+}
+
+.sparkle-two {
+    left: -24px;
+    bottom: 0;
+    font-size: 19px
+}
+
+.workspace {
+    margin-top: 45px
+}
+
+.section-title {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 17px
+}
+
+.section-title h2 {
+    font: 700 24px "Space Grotesk", sans-serif;
+    letter-spacing: -.7px;
+    margin-top: 4px
+}
+
+.library-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-weight: 700
+}
+
+.deck-layout {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 15px
+}
+
+.panel {
+    padding: 24px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow)
+}
+
+.panel-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: rgba(167, 139, 250, .13);
+    border: 1px solid rgba(167, 139, 250, .2);
+    border-radius: 11px;
+    color: var(--accent);
+    font-size: 20px;
+    margin-bottom: 15px
+}
+
+.panel h3 {
+    font: 700 16px "Space Grotesk", sans-serif;
+    letter-spacing: -.3px
+}
+
+.panel p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px
+}
+
+.panel label,
+.field label {
+    display: block;
+    color: #17ce1a;
+    font-size: 10px;
+    font-weight: 700;
+    margin: 18px 0 7px
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    background: #0e1120;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--text);
+    padding: 12px 13px;
+    outline: none;
+    font-size: 12px;
+    transition: border-color .2s, box-shadow .2s
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #697188
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, .1)
+}
+
+.btn {
+    min-height: 41px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 16px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    font-size: 11px;
+    font-weight: 800;
+    transition: transform .18s, filter .18s
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08)
+}
+
+.btn-primary {
+    background: linear-gradient(105deg, #17ce1a, #17ce1a);
+    color: #19142d;
+    box-shadow: 0 7px 20px rgba(167, 139, 250, .15)
+}
+
+.btn-primary:active {
+    transform: translateY(0)
+}
+
+.full-btn {
+    width: 100%;
+    margin-top: 12px
+}
+
+.btn-quiet {
+    background: rgba(255, 255, 255, .04);
+    border-color: var(--line);
+    color: var(--muted)
+}
+
+.btn-danger {
+    background: rgba(255, 113, 136, .08);
+    border-color: rgba(255, 113, 136, .23);
+    color: #ff91a3
+}
+
+.hint {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    color: #737b92;
+    font-size: 10px
+}
+
+.library-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.book-icon {
+    color: var(--accent);
+    font-size: 22px
+}
+
+.library-panel select {
+    margin-top: 0;
+    min-height: 43px
+}
+
+.deck-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px
+}
+
+.deck-actions .btn-primary {
+    flex: 1
+}
+
+.library-foot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-top: 20px;
+    padding-top: 13px;
+    border-top: 1px solid var(--line);
+    font-size: 10px;
+    color: var(--muted)
 }
 
-.container {
-  backdrop-filter: blur(3px);
-  border: 1px solid white ;
-  border-radius: 30px;
-  max-width: 400px;
-  margin: 50% auto;
-  padding: 40px;
-  text-align: center;
-  justify-self: center;
+.footer {
+    width: min(960px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 16px 0 22px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: #7d8499;
+    font-size: 10px
 }
 
-/* CARD */
+.footer strong {
+    color: var(--accent)
+}
+
+/* Study view */
+.study-wrap {
+    max-width: 720px;
+    padding: 42px 0 65px
+}
+
+.study-heading {
+    text-align: center;
+    margin-bottom: 22px
+}
+
+.study-heading h1 {
+    font: 700 clamp(28px, 4vw, 39px) "Space Grotesk", sans-serif;
+    letter-spacing: -1.2px;
+    margin: 7px 0
+}
+
+.study-heading p {
+    color: var(--muted);
+    font-size: 12px
+}
+
+.study-card-shell {
+    padding: 18px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: var(--shadow)
+}
+
+.card-topline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1px 4px 12px
+}
+
+.card-label {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    color: #17ce1a;
+    display: flex;
+    align-items: center;
+    gap: 7px
+}
+
+.flip-hint {
+    font-size: 9px;
+    color: var(--muted)
+}
+
 .card {
-  width: 100%;
-  height: 220px;
-  perspective: 1000px;
-  margin: 20px 0;
-  cursor: pointer;
+    width: 100%;
+    height: 300px;
+    perspective: 1200px;
+    cursor: pointer;
+    touch-action: pan-y;
+    outline: none
+}
+
+.card:focus-visible {
+    border-radius: 15px;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, .4)
 }
 
 .inner {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.5s;
-  transform-style: preserve-3d;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .55s cubic-bezier(.2, .7, .2, 1)
 }
 
 .card.flipped .inner {
-  transform: rotateY(180deg);
+    transform: rotateY(180deg)
 }
 
-.front, .back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  font-size: 18px;
-  backface-visibility: hidden;
-  background: #020617;
-  border: 2px solid #22c55e;
+.front,
+.back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 28px;
+    border-radius: 15px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    text-align: center;
+    background: radial-gradient(circle at 50% 0%, rgba(167, 139, 250, .12), transparent 50%), #111526;
+    border: 1px solid rgba(167, 139, 250, .23)
 }
 
 .back {
-  transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    background: radial-gradient(circle at 50% 0%, rgba(110, 231, 216, .1), transparent 50%), #101a23;
+    border-color: rgba(110, 231, 216, .23)
 }
 
-/* BUTTONS */
-button {
-  padding: 8px 12px;
-  margin: 5px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: gold;
-  color: black;
-  transition: 0.2s;
+.face-label {
+    position: absolute;
+    top: 22px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    font-weight: 800;
+    color: var(--accent)
 }
-.nametag{
-    color: gray;
-    font-size: 12px;
+
+.back .face-label {
+    color: var(--accent2)
+}
+
+.card-face-content {
+    font: 600 clamp(19px, 3vw, 25px)/1.4 "Space Grotesk", sans-serif;
+    overflow-wrap: anywhere;
+    max-height: 190px;
+    overflow-y: auto
+}
+
+.face-footer {
+    position: absolute;
+    bottom: 18px;
+    color: #747c95;
+    font-size: 10px
+}
+
+.face-footer span {
+    color: var(--accent);
+    margin-left: 5px
+}
+
+.card-navigation {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    justify-self: center;
-    position: relative;
-    top: -100px;
-}
-button:hover {
-    background-color: greenyellow;
-  transform: scale(1.05);
+    gap: 12px;
+    padding-top: 15px
 }
 
-/* CONTROLS */
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+.nav-card-btn {
+    width: 39px;
+    height: 39px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .04);
+    color: var(--text);
+    font-size: 17px;
+    transition: .2s
 }
 
-/* FORM */
- input {
-    background-color: rgb(25, 23, 23);
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 8px;
-  border: 1px solid white;
-}
-input:focus{
-    background-color: white;
-    color: gold;
+.nav-card-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent)
 }
 
-#deckList{
-    background-color: white;
-    color: black;
+.flip-btn {
+    min-width: 125px;
+    background: rgba(167, 139, 250, .1);
+    border-color: rgba(167, 139, 250, .22);
+    color: #d7ccff
+}
+
+.editor-panel {
+    margin-top: 18px;
+    padding: 24px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px
+}
+
+.editor-heading {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px
+}
+
+.editor-heading h2 {
+    font: 700 20px "Space Grotesk", sans-serif;
+    margin-top: 4px
+}
+
+.editor-heading p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px
+}
+
+.editor-badge {
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    background: rgba(167, 139, 250, .1);
+    border: 1px solid rgba(167, 139, 250, .18);
+    border-radius: 7px;
+    padding: 6px 8px;
+    font-weight: 800;
+    white-space: nowrap
+}
+
+.editor-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px
+}
+
+.field label {
+    margin-top: 0
+}
+
+.field textarea {
+    min-height: 83px;
+    resize: vertical
+}
+
+.editor-actions {
+    display: flex;
+    gap: 9px;
+    margin-top: 13px
+}
+
+.back-link {
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700
+}
+
+.back-link:hover {
+    color: var(--accent)
+}
+
+@media(max-width:680px) {
+
+    .topbar,
+    .home-wrap,
+    .study-wrap,
+    .footer {
+        width: calc(100% - 32px)
+    }
+
+    .topbar {
+        height: 62px
+    }
+
+    .home-wrap {
+        padding: 28px 0 45px
+    }
+
+    .welcome {
+        grid-template-columns: 1fr;
+        padding: 27px 23px;
+        gap: 0
+    }
+
+    .welcome h1 {
+        font-size: 40px
+    }
+
+    .welcome-art {
+        height: 150px
+    }
+
+    .book-stack {
+        transform: scale(.82) rotate(-9deg)
+    }
+
+    .workspace {
+        margin-top: 30px
+    }
+
+    .deck-layout {
+        grid-template-columns: 1fr
+    }
+
+    .panel {
+        padding: 20px
+    }
+
+    .section-title h2 {
+        font-size: 22px
+    }
+
+    .footer {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 4px
+    }
+
+    .study-wrap {
+        padding: 30px 0 45px
+    }
+
+    .study-heading {
+        margin-bottom: 17px
+    }
+
+    .study-card-shell {
+        padding: 12px
+    }
+
+    .card {
+        height: 270px
+    }
+
+    .front,
+    .back {
+        padding: 30px 20px
+    }
+
+    .editor-panel {
+        padding: 20px
+    }
+
+    .editor-fields {
+        grid-template-columns: 1fr
+    }
+
+    .editor-heading h2 {
+        font-size: 18px
+    }
+}
+
+@media(max-width:380px) {
+    .topbar-note {
+        font-size: 9px
+    }
+
+    .welcome {
+        padding: 23px 18px
+    }
+
+    .welcome h1 {
+        font-size: 35px
+    }
+
+    .welcome-pills span {
+        font-size: 8px
+    }
+
+    .card {
+        height: 245px
+    }
+
+    .editor-actions {
+        flex-direction: column
+    }
+
+    .editor-actions .btn {
+        width: 100%
+    }
+
+    .deck-actions {
+        flex-direction: column
+    }
+
+    .deck-actions .btn {
+        width: 100%
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important
+    }
 }
