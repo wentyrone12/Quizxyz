@@ -5,75 +5,269 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0d16">
-  <title>Quizxyz | Flashcard Study</title>
+  <title>WHITE_Quizxyz 1.0</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon"  href="white_quiz1_icon_512.png">
+  <script src="settings.js"></script>
 </head>
 
 <body class="study-page">
   <div class="ambient ambient-a"></div>
   <div class="ambient ambient-b"></div>
   <header class="topbar">
-    <a class="brand" href="index.html"><span class="brand-mark">W</span><span>Quiz<span
+    <a class="brand" href="study.html"><span class="brand-mark">W</span><span>Quiz<span
           class="brand-accent">xyz</span></span></a>
-    <button class="back-link" type="button" onclick="goBack()">← <span>All decks</span></button>
-  </header>
-  <main class="study-wrap">
-    <div class="study-heading"><span class="eyebrow">FOCUS MODE</span>
-      <h1>Review & remember<span class="accent-text">.</span></h1>
-      <p>Think of your answer, then flip the card to check yourself.</p>
+    <div class="study-top-actions">
+      <button class="back-link" type="button" onclick="goBack()">← <span>back</span></button>
     </div>
+  </header>
+
+  <main class="study-wrap">
+    <div class="study-heading">
+      <span class="eyebrow">FOCUS MODE</span>
+      <h1>Review & remember<span class="accent-text">.</span></h1>
+      <p id="deckSubtitle">Think of your answer, then flip the card to check yourself.</p>
+    </div>
+
     <section class="study-card-shell">
-      <div class="card-topline"><span class="card-label"><span class="online-dot"></span> FLASHCARD</span><span
-          class="flip-hint">Tap card to flip</span></div>
+      <div class="card-topline">
+        <span class="card-label"><span class="online-dot"></span> FLASHCARD</span>
+        <span class="flip-hint" id="cardCounter">0 / 0</span>
+      </div>
       <div class="card" id="card" onclick="flipCard()" role="button" tabindex="0"
         aria-label="Flashcard. Tap or press Enter to flip.">
         <div class="inner">
           <div class="front"><span class="face-label">QUESTION</span>
-            <div class="card-face-content" id="question">Loading...</div><span class="face-footer">Think it through
-              <span>✦</span></span>
+            <div class="card-face-content" id="question">Loading...</div>
+            <span class="face-footer">Think it through <span>✦</span></span>
           </div>
           <div class="back"><span class="face-label">ANSWER</span>
-            <div class="card-face-content" id="answer">Answer</div><span class="face-footer">Nice work reviewing
-              <span>✓</span></span>
+            <div class="card-face-content" id="answer">Answer</div>
+            <span class="face-footer">Nice work reviewing <span>✓</span></span>
           </div>
         </div>
       </div>
-      <div class="card-navigation"><button class="nav-card-btn" type="button" onclick="prevCard()"
-          aria-label="Previous card">←</button><button class="btn btn-secondary flip-btn" type="button"
-          onclick="flipCard()">↻ <span>Flip card</span></button><button class="nav-card-btn" type="button"
-          onclick="nextCard()" aria-label="Next card">→</button></div>
+      <div class="card-navigation">
+        <button class="nav-card-btn" type="button" onclick="prevCard()" aria-label="Previous card">←</button>
+        <button class="btn btn-secondary flip-btn" type="button" onclick="flipCard()">↻ <span>Flip card</span></button>
+        <button class="nav-card-btn" type="button" onclick="nextCard()" aria-label="Next card">→</button>
+      </div>
     </section>
+
     <section class="editor-panel">
       <div class="editor-heading">
-        <div><span class="eyebrow">BUILD YOUR SET</span>
-          <h2>Add a flashcard</h2>
-          <p>Write one clear prompt and its answer.</p>
+        <div>
+          <span class="eyebrow">Add Flashcard</span>
         </div>
-        <div class="editor-badge">＋ NEW CARD</div>
+        <button class="editor-badge" id="studyModesButton" type="button" onclick="openStudyModes()">
+          ＋ STUDY MODES
+        </button>
       </div>
       <div class="editor-fields">
         <div class="field"><label for="qInput">Question</label><textarea id="qInput" placeholder="Type your question..."
-            rows="3" style="resize: none;"></textarea></div>
+            rows="3"></textarea></div>
         <div class="field"><label for="aInput">Answer</label><textarea id="aInput" placeholder="Type the answer..."
-            rows="3" style="resize: none;"></textarea></div>
+            rows="3"></textarea></div>
       </div>
-      <div class="editor-actions"><button class="btn btn-primary" type="button" onclick="addCard()">Add to deck
-          <span>↗</span></button><button class="btn btn-danger" type="button" onclick="deleteCard()">Delete current
-          card</button></div>
+      <div class="editor-actions">
+        <button class="btn btn-primary" type="button" onclick="addCard()">Add to deck <span>↗</span></button>
+        <button class="btn btn-danger" type="button" onclick="deleteCard()">Delete current card</button>
+      </div>
+      <div class="editor-footnote">
+        <span>⌁</span> Everything in this deck is stored only in this browser using localStorage.
+      </div>
     </section>
   </main>
-  <footer class="footer"><span>Made with focus by <strong>Wenxyz</strong></span><span>Keep showing up. Your future self
+
+  <!-- Study Modes -->
+  <div class="modal" id="modesModal" aria-hidden="true">
+    <div class="modal-panel modes-panel" role="dialog" aria-modal="true" aria-labelledby="modesTitle">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">ACTIVE DECK</span>
+          <h2 id="modesTitle">Choose how you want to study</h2>
+          <p id="modesDeckName">Your deck</p>
+        </div>
+        <button class="icon-close" type="button" onclick="closeStudyModes()" aria-label="Close">×</button>
+      </div>
+
+      <div class="mode-cards">
+        <button class="mode-card" type="button" onclick="openQAMode()">
+          <span class="mode-icon">Q↔A</span>
+          <strong>Q&amp;A Review</strong>
+          <span class="mode-cta">Open reviewer →</span>
+        </button>
+        <button class="mode-card" type="button" onclick="openMCMode()">
+          <span class="mode-icon">A&nbsp;B&nbsp;C&nbsp;D</span>
+          <strong>Multiple Choice</strong>
+          <span class="mode-cta">Start quiz →</span>
+        </button>
+      </div>
+
+      <div class="modes-summary">
+        <div><span class="summary-value" id="qaCount">0</span><span>Q&amp;A cards</span></div>
+        <div><span class="summary-value" id="mcCount">0</span><span>MC-ready cards</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q&A Reviewer -->
+  <div class="modal" id="qaModal" aria-hidden="true">
+    <div class="modal-panel large-panel" role="dialog" aria-modal="true" aria-labelledby="qaTitle">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">Q&amp;A REVIEWER</span>
+          <h2 id="qaTitle">Questions &amp; answers</h2>
+          <p>Tap a question to reveal its answer.</p>
+        </div>
+        <button class="icon-close" type="button" onclick="closeQAMode()" aria-label="Close">×</button>
+      </div>
+      <div class="qa-toolbar">
+        <label class="search-box"><span>⌕</span><input id="qaSearch" type="search" placeholder="Search questions..."></label>
+        <button class="mini-btn" type="button" onclick="expandAllQA()">Expand all</button>
+      </div>
+      <div class="qa-list" id="qaList"></div>
+    </div>
+  </div>
+
+  <!-- Multiple Choice setup -->
+  <div class="modal" id="mcChoiceModal" aria-hidden="true">
+    <div class="modal-panel mc-choice-panel" role="dialog" aria-modal="true" aria-labelledby="mcChoiceTitle">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">MULTIPLE CHOICE</span>
+          <h2 id="mcChoiceTitle">How do you want to build your MC cards?</h2>
+          <p id="mcChoiceSubtitle">Choose manual creation or let Quizxyz build choices from your existing flashcards.</p>
+        </div>
+        <button class="icon-close" type="button" onclick="closeMCChoiceMode()" aria-label="Close">×</button>
+      </div>
+      <div class="mc-method-cards">
+        <button class="mode-card mc-method-card" type="button" onclick="openCreateMCMode()">
+          <span class="mode-icon">✎</span>
+          <strong>Create MC Cards</strong>
+          <small>Manually write the question, A–D choices, and choose the correct answer.</small>
+          <span class="mode-cta">Open MC builder →</span>
+        </button>
+        <button class="mode-card mc-method-card auto-method" type="button" onclick="autoCreateMC()">
+          <span class="mode-icon">⚡</span>
+          <strong>Auto Create Cards</strong>
+          <small>Use your saved flashcard questions and answers to build shuffled A–D choices automatically.</small>
+          <span class="mode-cta">Build from flashcards →</span>
+        </button>
+      </div>
+      <div class="modes-summary mc-setup-summary">
+        <div><span class="summary-value" id="mcSourceCount">0</span><span>flashcards available</span></div>
+        <div><span class="summary-value" id="mcReadySetupCount">0</span><span>MC cards ready</span></div>
+      </div>
+      <div class="mc-setup-note"><strong>How Auto-create works:</strong> each flashcard's <em>answer</em> becomes the correct choice, while three different answers from other flashcards become distractors.</div>
+    </div>
+  </div>
+
+  <!-- Multiple Choice -->
+  <div class="modal" id="mcModal" aria-hidden="true">
+    <div class="modal-panel large-panel mc-panel" role="dialog" aria-modal="true" aria-labelledby="mcTitle">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">MULTIPLE CHOICE</span>
+          <h2 id="mcTitle">Challenge mode</h2>
+          <p id="mcProgress">0 / 0</p>
+        </div>
+        <button class="icon-close" type="button" onclick="closeMCMode()" aria-label="Close">×</button>
+      </div>
+
+      <div id="mcEmpty" class="empty-state" hidden>
+        <div class="empty-icon">?</div>
+        <h3>No MC-ready cards yet</h3>
+        <p>Add A, B, C and D choices to at least one question to start the quiz.</p>
+        <button class="btn btn-primary" type="button" id="mcEmptyCreateBtn" onclick="openCreateMCMode()">Create MC card</button>
+      </div>
+
+      <div id="mcQuiz" hidden>
+        <div class="mc-scorebar">
+          <span id="mcScore">Score 0</span><span id="mcBest">Best 0</span>
+          <button class="mini-btn" type="button" onclick="shuffleMCQuiz()">↻ Shuffle</button>
+        </div>
+        <article class="mc-question-card">
+          <span class="face-label">QUESTION</span>
+          <div id="mcQuestion" class="mc-question">Question</div>
+        </article>
+        <div class="choices-grid" id="choicesGrid"></div>
+        <div class="mc-feedback" id="mcFeedback" aria-live="polite"></div>
+        <div class="mc-actions">
+          <button class="btn btn-secondary" type="button" onclick="nextMCQuestion()" id="mcNextBtn">Next question →</button>
+          <button class="btn btn-quiet mc-manual-cta" id="mcManualAction" type="button" onclick="openMCEditor()">＋ Add / edit MC</button>
+        </div>
+      </div>
+
+      <div class="mc-ready-list" id="mcReadyList"></div>
+    </div>
+  </div>
+
+  <!-- Multiple Choice Editor -->
+  <div class="modal" id="mcEditorModal" aria-hidden="true">
+    <div class="modal-panel editor-modal-panel" role="dialog" aria-modal="true" aria-labelledby="mcEditorTitle">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">MC BUILDER</span>
+          <h2 id="mcEditorTitle">Create a multiple-choice card</h2>
+          <p>Save one correct choice and three distractors.</p>
+        </div>
+        <button class="icon-close" type="button" onclick="closeMCEditor()" aria-label="Close">×</button>
+      </div>
+      <form id="mcForm" class="mc-form">
+        <div class="field"><label for="mcQInput">Question</label><textarea id="mcQInput" rows="3" required placeholder="e.g. What does DHCP do?"></textarea></div>
+        <div class="choices-form-grid">
+          <div class="field choice-field"><label for="mcAInput">A</label><input id="mcAInput" required placeholder="Choice A"></div>
+          <div class="field choice-field"><label for="mcBInput">B</label><input id="mcBInput" required placeholder="Choice B"></div>
+          <div class="field choice-field"><label for="mcCInput">C</label><input id="mcCInput" required placeholder="Choice C"></div>
+          <div class="field choice-field"><label for="mcDInput">D</label><input id="mcDInput" required placeholder="Choice D"></div>
+        </div>
+        <div class="field"><label for="mcCorrectInput">Correct answer</label>
+          <select id="mcCorrectInput" required>
+            <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" type="submit">Save MC card ✓</button>
+          <button class="btn btn-quiet" type="button" onclick="closeMCEditor()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MC Quiz Result -->
+  <div class="modal" id="mcResultModal" aria-hidden="true">
+    <div class="modal-panel mc-result-panel" role="dialog" aria-modal="true" aria-labelledby="mcResultTitle">
+      <div class="mc-result-icon" id="mcResultIcon">✓</div>
+      <span class="eyebrow">QUIZ COMPLETE</span>
+      <h2 id="mcResultTitle">Great job!</h2>
+      <p id="mcResultSummary">You finished the quiz.</p>
+      <div class="mc-result-score"><span id="mcFinalScore">0 / 0</span><small id="mcFinalPercent">0%</small></div>
+      <div class="mc-result-stats">
+        <div><strong id="mcCorrectCount">0</strong><span>Correct</span></div>
+        <div><strong id="mcWrongCount">0</strong><span>Wrong</span></div>
+        <div><strong id="mcTotalCount">0</strong><span>Total</span></div>
+      </div>
+      <div class="modal-actions mc-result-actions">
+        <button class="btn btn-primary" type="button" onclick="restartFromResult()">Restart quiz ↻</button>
+        <button class="btn btn-quiet" type="button" onclick="backToStudyModesFromResult()">Back to study modes</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><span>Made by <strong style="color: red;">Wenxyz</strong></span><span>Keep showing up. Your future self
       will thank you.</span></footer>
+
   <script type="module" src="script.js"></script>
   <script>
     document.addEventListener("keydown", function (e) {
       const tag = (e.target.tagName || "").toLowerCase();
-      if (tag === "textarea" || tag === "input") return;
+      if (tag === "textarea" || tag === "input" || tag === "select") return;
       if (e.key === "ArrowRight") nextCard();
       if (e.key === "ArrowLeft") prevCard();
       if (e.key === "Enter" && e.target.id === "card") flipCard();

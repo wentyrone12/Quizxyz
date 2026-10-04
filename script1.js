@@ -1,63 +1,107 @@
 const deckList = document.getElementById("deckList");
 
-// LOAD LOCAL DECKS ONLY
-function loadDecks() {
-  const decks = JSON.parse(localStorage.getItem("decks")) || [];
-
-  deckList.innerHTML = "";
-
-  decks.forEach((deck, index) => {
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = deck.name;
-    deckList.appendChild(option);
-  });
+function getDecks() {
+  try {
+    return JSON.parse(localStorage.getItem("decks")) || [];
+  } catch {
+    return [];
+  }
 }
 
-// CREATE DECK (LOCAL ONLY)
-function createDeck() {
-  const name = document.getElementById("deckName").value.trim();
-  if (!name) return alert("Enter name!");
+function saveDecks(decks) {
+  localStorage.setItem("decks", JSON.stringify(decks));
+}
 
-  const decks = JSON.parse(localStorage.getItem("decks")) || [];
+function loadDecks() {
+  const decks = getDecks();
+  deckList.innerHTML = "";
+
+  if (!decks.length) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No decks yet — create one";
+    deckList.appendChild(option);
+    deckList.disabled = true;
+    updateLibraryMeta(0);
+    return;
+  }
+
+  deckList.disabled = false;
+  decks.forEach((deck, index) => {
+    const cards = getDeckCards(deck.id);
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = `${deck.name} · ${cards.length} ${cards.length === 1 ? "card" : "cards"}`;
+    deckList.appendChild(option);
+  });
+
+  updateLibraryMeta(decks.length);
+}
+
+function getDeckCards(deckId) {
+  try {
+    return JSON.parse(localStorage.getItem(deckId)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function updateLibraryMeta(deckCount) {
+  const count = document.getElementById("deckCount");
+  if (count) count.textContent = `${deckCount} ${deckCount === 1 ? "deck" : "decks"}`;
+}
+
+function createDeck() {
+  const input = document.getElementById("deckName");
+  const name = input.value.trim();
+  if (!name) return alert("Enter a deck name first.");
+
+  const decks = getDecks();
+  const exists = decks.some(d => d.name.toLowerCase() === name.toLowerCase());
+  if (exists) return alert("A deck with that name already exists.");
 
   const newDeck = {
     id: crypto.randomUUID(),
-    name: name
+    name,
+    createdAt: Date.now()
   };
 
   decks.push(newDeck);
-  localStorage.setItem("decks", JSON.stringify(decks));
+  saveDecks(decks);
+  localStorage.setItem(newDeck.id, "[]");
 
-  document.getElementById("deckName").value = "";
+  input.value = "";
   loadDecks();
+  deckList.value = String(decks.length - 1);
 }
 
-// DELETE DECK
 function deleteDeck() {
   const index = deckList.value;
-  if (index === "") return alert("Select deck!");
+  if (index === "" || deckList.disabled) return alert("Select a deck first.");
 
-  const decks = JSON.parse(localStorage.getItem("decks")) || [];
+  const decks = getDecks();
+  const selected = decks[Number(index)];
+  if (!selected) return;
 
-  decks.splice(index, 1);
-  localStorage.setItem("decks", JSON.stringify(decks));
+  const settings = window.QuizxyzSettings?.read?.() || { confirmDelete: true };
+  if (settings.confirmDelete && !confirm(`Delete “${selected.name}” and all of its cards?`)) return;
 
+  localStorage.removeItem(selected.id);
+  decks.splice(Number(index), 1);
+  saveDecks(decks);
+  if (localStorage.getItem("localDeckId") === selected.id) localStorage.removeItem("localDeckId");
   loadDecks();
 }
 
-// OPEN DECK (LOCAL MODE)
 function goToDeck() {
   const index = deckList.value;
-  if (index === "") return alert("Select deck!");
+  if (index === "" || deckList.disabled) return alert("Select a deck first.");
 
-  const decks = JSON.parse(localStorage.getItem("decks")) || [];
+  const decks = getDecks();
+  const selectedDeck = decks[Number(index)];
+  if (!selectedDeck) return;
 
-  const selectedDeck = decks[index];
-
-  // save deckId locally
   localStorage.setItem("localDeckId", selectedDeck.id);
-
   window.location.href = "study.html";
 }
 

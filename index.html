@@ -5,13 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0d16">
-  <title>Quizxyz | Study Decks</title>
+  <title>WHITE_Quizxyz 1.0</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet">
+    <link referrerpolicy="icon" href="white_quiz1_icon_512.png">
   <link rel="stylesheet" href="style1.css">
+  <script src="settings.js"></script>
 </head>
 
 <body class="decks-page">
@@ -20,15 +22,18 @@
   <header class="topbar">
     <a class="brand" href="index.html"><span class="brand-mark">W</span><span>Quiz<span
           class="brand-accent">xyz</span></span></a>
-    <div class="topbar-note"><span class="online-dot"></span> Your personal study space</div>
+    <div class="topbar-tools">
+      <div class="topbar-note"><span class="online-dot"></span> Your personal study space</div>
+      <button class="settings-btn" id="settingsButton" type="button" aria-label="Open settings">⚙</button>
+    </div>
   </header>
+
   <main class="home-wrap">
     <section class="welcome">
       <div class="welcome-copy">
         <span class="eyebrow">LEARN AT YOUR OWN PACE</span>
-        <h1>To change your life, you must first to <br><span class="accent-text">Change your day.</span></h1>
-        <div class="welcome-pills"><span>✦ Simple flashcards</span><span>↻ Review anytime</span><span>⌂ Saved in this
-            browser</span></div>
+        <h1>Stop waiting for motivation, <br><span class="accent-text">build discipline.</span></span></h1>
+        <div class="welcome-pills"><span>✦ Flashcards</span><span>Q↔A Review</span><span>A B C D Practice</span><span>⌂ Local storage</span></div>
       </div>
       <div class="welcome-art" aria-hidden="true">
         <div class="art-orbit orbit-one"></div>
@@ -46,19 +51,15 @@
     <section class="workspace">
       <div class="section-title">
         <div><span class="eyebrow">YOUR LIBRARY</span>
-          <h2>Study decks</h2>
-        </div><span class="library-label">LOCAL COLLECTION</span>
+        </div><span class="library-label" id="deckCount">0 decks</span>
       </div>
       <div class="deck-layout">
         <article class="panel create-panel">
-          <div class="panel-icon">＋</div>
           <h3>Create a new deck</h3>
-          <p>Give your study set a name that’s easy to recognize.</p>
           <label for="deckName">Deck name</label>
           <input type="text" id="deckName" placeholder="e.g. Networking Fundamentals" maxlength="60" autocomplete="off">
           <button class="btn btn-primary full-btn" type="button" onclick="createDeck()">Create deck
             <span>↗</span></button>
-          <div class="hint">You can add and remove cards after opening a deck.</div>
         </article>
         <article class="panel library-panel">
           <div class="library-head">
@@ -72,15 +73,81 @@
           <div class="deck-actions"><button class="btn btn-primary" type="button" onclick="goToDeck()">Open deck
               <span>→</span></button><button class="btn btn-quiet" type="button" onclick="deleteDeck()">Delete</button>
           </div>
-          <div class="library-foot"><span class="online-dot"></span> Decks are stored in this browser’s local storage.
-          </div>
+          <div class="library-foot"><span class="online-dot"></span> Local study data · Google Profile optional</div>
         </article>
       </div>
     </section>
   </main>
-  <footer class="footer"><span>Made by <strong>Wenxyz</strong></span><span>Quizxyz · Study smarter, one card
-      at a time</span></footer>
+
+  <!-- Settings -->
+  <div class="modal" id="settingsModal" aria-hidden="true">
+    <div class="modal-panel settings-panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">QUIZXYZ SETTINGS</span>
+          <h1 class="settingsTitle"><a style="color: red;">DO</a>NT<br>QU<a style="color: red;">IT</a></h1>
+        </div>
+        <button class="icon-close" id="closeSettings" type="button" aria-label="Close settings">×</button>
+      </div>
+
+      <div class="settings-grid">
+        <div class="setting-card featured-setting">
+          <div class="setting-icon">◐</div>
+          <div class="setting-copy"><strong>Appearance</strong><span>Switch between dark and light mode.</span></div>
+          <select id="themeSelect" class="setting-select" aria-label="Theme">
+            <option value="dark">Dark mode</option>
+            <option value="light">Light mode</option>
+          </select>
+        </div>
+        <button class="setting-card profile-setting" id="profileButton" type="button">
+          <span class="profile-avatar-mini" id="profileAvatarMini">G</span>
+          <span class="setting-copy"><strong id="profileSettingTitle">Google Profile</strong><span id="profileSettingStatus">Optional · Sign in with Google to personalize your profile.</span></span>
+          <span class="setting-action">Open →</span>
+        </button>
+        <label class="setting-card setting-switch"><span class="setting-icon">✦</span><span class="setting-copy"><strong>Reduce motion</strong><span>Use calmer animations and transitions.</span></span><input id="reduceMotionToggle" type="checkbox"><span class="switch-ui"></span></label>
+        <label class="setting-card setting-switch"><span class="setting-icon">▦</span><span class="setting-copy"><strong>Compact layout</strong><span>Reduce spacing for smaller screens.</span></span><input id="compactToggle" type="checkbox"><span class="switch-ui"></span></label>
+        <label class="setting-card setting-switch"><span class="setting-icon">!</span><span class="setting-copy"><strong>Confirm before delete</strong><span>Ask before removing decks or cards.</span></span><input id="confirmDeleteToggle" type="checkbox"><span class="switch-ui"></span></label>
+      </div>
+
+      <div class="storage-card">
+        <div><strong>Local data</strong><span>Your study data never needs a server in this version.</span></div>
+        <button class="btn btn-danger" id="resetSettingsBtn" type="button">Reset settings</button>
+      </div>
+      <div class="settings-tip"><span>⌘</span> Tip: add multiple-choice from <strong>Study Modes → Multiple Choice → Add / edit MC</strong>.</div>
+    </div>
+  </div>
+
+  <!-- Optional Google Profile -->
+  <div class="modal" id="profileModal" aria-hidden="true">
+    <div class="modal-panel profile-panel" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">OPTIONAL ACCOUNT</span>
+          <h2 id="profileTitle">Your Quizxyz profile</h2>
+          <p>Your study decks remain local to this browser.</p>
+        </div>
+        <button class="icon-close" id="closeProfile" type="button" aria-label="Close profile">×</button>
+      </div>
+      <div class="profile-card">
+        <div class="profile-avatar" id="profileAvatar">G</div>
+        <div class="profile-info">
+          <strong id="profileName">Not signed in</strong>
+          <span id="profileEmail">Sign in with Google to show your profile here.</span>
+        </div>
+      </div>
+      <div class="profile-actions">
+        <button class="btn btn-primary full-btn" id="googleSignInBtn" type="button" disabled><span class="google-g">G</span> Continue with Google</button>
+        <button class="btn btn-danger full-btn" id="googleSignOutBtn" type="button" hidden>Sign out</button>
+      </div>
+      <div class="profile-note" id="profileNote">Optional account · you can continue using Quizxyz without signing in.</div>
+    </div>
+  </div>
+
+  <footer class="footer"><span>Made by <strong style="color: red;">Wenxyz</strong></span><span>Quizxyz · Study smarter, with more than flashcards</span></footer>
   <script type="module" src="script1.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+  <script src="auth-ui.js"></script>
 </body>
 
 </html>
